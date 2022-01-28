@@ -16,13 +16,16 @@ function (accessToken, refreshToken, profile, cb) {
       }
       if (!user) {
         try {
-          const newUser = Users.create({ facebookId: profile.id, name: 'facebook' })
+          let name = profile.displayName.split(' ')[0]
+          let lastName = profile.displayName.split(' ')[1]
+          const newUser = Users.create({ facebookId: profile.id, name, lastName, email: profile.emails[0].value, password: profile.id*2, avatar: profile.photos[0].value, atUser: profile.username, date: profile.birthday, description: profile.about})
           return cb(null, newUser)
         } catch (err) {
           return cb(err)
         }
       }
-      return cb(null, user)
+      const userExists = Users.findOne({ facebookId: profile.id})
+      return cb(null, userExists)
     })
   })
 })
