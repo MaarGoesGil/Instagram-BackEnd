@@ -18,7 +18,7 @@ const Token = {
   compareToken: (token) => {
     try {
       const decoded = jwt.verify(token, process.env.JWT_SECRET)
-      return decoded
+      return decoded.id
     } catch (err) {
       return err
     }

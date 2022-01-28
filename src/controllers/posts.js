@@ -19,12 +19,12 @@ const postPosts = async (req, res) => {
 }
 
 const getAllPosts = async (req, res) => {
-  const { userId } = req.query
+  const { userId } = req.body
   try {
     const posts = await Posts.find({ userId })
     posts
       ? res.send(posts)
-      : res.send({
+      : res.status(404).send({
         status: 'error',
         message: 'Posts not found'
       })
@@ -39,7 +39,7 @@ const getPostsId = async (req, res) => {
     const post = await Posts.findOne({ _id: id })
     post
       ? res.send(post)
-      : res.send({
+      : res.status(404).send({
         status: 'error',
         message: 'Post not found'
       })

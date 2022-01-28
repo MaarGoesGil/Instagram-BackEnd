@@ -14,7 +14,16 @@ const postUsers = async (req, res, next) => {
         message: 'User already exists'
       })
     }
-    await Users.create({ name, lastName, email, password, avatar, date, description, atUser: uuidv4() })
+    await Users.create({
+      name: name.toLowerCase(),
+      lastName: lastName.toLowerCase(),
+      email: email,
+      password,
+      avatar,
+      date,
+      description: description?.toLowerCase() || null,
+      atUser: uuidv4()
+    })
     senEmailSignup(email)
     res.send({
       status: 'success',
@@ -50,19 +59,20 @@ const getConfirmUser = async (req, res, next) => {
 
 const signIn = async (req, res) => {
   const { email } = req.body
-  const { _id, username, avatar, description, atUser } = await Users.findOne({ email })
+  const { _id, username, avatar, description, atUser, password, date } = await Users.findOne({ email })
+  console.log(date)
   const token = generateToken(_id)
-  res.send({ username, email, avatar, description, atUser, token })
+  res.send({ username, email, avatar, description, atUser, token, password, date: date.toISOString() })
 }
 
 const getAllUsers = async (req, res) => {
   try {
-    const user = await Users.find()
+    const users = await Users.find()
     res.send({
       status: 'success',
       data: {
         msg: 'Users',
-        user
+        users
       }
     })
   } catch (err) {
@@ -72,12 +82,12 @@ const getAllUsers = async (req, res) => {
 
 const getFirstUsers = async (req, res) => {
   try {
-    const user = await Users.find()
+    const users = await Users.where({ isAdmin: false }).sort({ name: 1, lastName: 1, atUser: 1 }).limit(5)
     res.send({
       status: 'success',
       data: {
-        msg: 'Users',
-        user
+        msg: 'List of the first 5 users',
+        users: users.map((e) => { return { _id: e._id, name: e.name, lastName: e.lastName, avatar: e.avatar, atUser: e.atUser } })
       }
     })
   } catch (err) {
@@ -112,8 +122,8 @@ const getUsersByName = async (req, res) => {
   try {
     const users = await Users.find({
       $or: [
-        { name: { $regex: name, $options: 'i' } },
-        { lastName: { $regex: name, $options: 'i' } },
+        { name: { $regex: name.toLowerCase(), $options: 'i' } },
+        { lastName: { $regex: name.toLowerCase(), $options: 'i' } },
         { atUser: { $regex: name, $options: 'i' } }
       ]
     }, { name: 1, lastName: 1, atUser: 1 })
@@ -139,7 +149,31 @@ const getUsersByName = async (req, res) => {
 const patchUsers = async (req, res) => {
   const { name, lastName, email, avatar, date, description, atUser } = req.body
   try {
-    const user = await Users.findOneAndUpdate({ email }, { name, lastName, email, avatar, date, description, atUser }, { new: true })
+    const user = await Users.findOneAndUpdate({ email }, {
+      name: name.toLowerCase(),
+      lastName: lastName?.toLowerCase(),
+      email,
+      avatar,
+      date,
+      description: description?.toLowerCase(),
+      atUser
+    }, { new: true })
+    res.send({
+      status: 'success',
+      data: {
+        msg: 'User updated',
+        user: { ...user._doc, date: date.slice(0, 10) }
+      }
+    })
+  } catch (err) {
+    console.log(err)
+  }
+}
+
+const patchAddAdmin = async (req, res) => {
+  const { email } = req.body
+  try {
+    const user = await Users.findOneAndUpdate({ email }, { isAdmin: true }, { new: true })
     res.send({
       status: 'success',
       data: {
@@ -209,6 +243,7 @@ module.exports = {
   getUsersByName,
   getUsersById,
   patchUsers,
+  patchAddAdmin,
   patchUsersPassword,
   patchUsersResetPassword,
   deleteUsers

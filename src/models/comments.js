@@ -3,8 +3,8 @@ const Schema = mongoose.Schema
 
 const CommentsSchema = new Schema({
   atUser: { // @AbrilDeveloper
-    type: Schema.Types.ObjectId,
-    ref: 'users'
+    type: String,
+    required: true
   },
   idPost: { // id of Post
     type: Schema.Types.ObjectId,

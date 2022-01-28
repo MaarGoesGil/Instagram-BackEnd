@@ -2,18 +2,17 @@
 const express = require('express')
 const session = require('express-session')
 const morgan = require('morgan')
-const passport = require('passport')
 const cors = require('cors')
-const FacebookStrategy = require('passport-facebook').Strategy
+const passport = require('passport')
 const { errorHandler } = require('../middlewires/handleErrors')
-require('../middlewires/corsAdmin.js')
-const sessionOptions = require('../middlewires/session.js')
-const strategyFunction = require('../middlewires/strategyFunction.js')
-require('./db')
+const { isAdmin } = require('../middlewires/isAdmin')
 const routes = require('../routes/routes')
-const app = express()
+const { newStrategy } = require('../middlewires/newStrategy')
+const { sessionOptions } = require('../middlewires/sessionOptions')
+const { Admin, AllServ } = require('../middlewires/corsOptions.js')
+require('./db')
 require('dotenv').config()
-const Users = require('../models/users')
+const app = express()
 
 // cors options for cross origin
 /*
@@ -27,38 +26,14 @@ const corsOptions = {
 app.use(express.json())
 app.use(morgan('dev'))
 app.use(cors())
-app.use(session({
-  resave: false,
-  saveUninitialized: true,
-  secret: 'process.env.secret',
-  cookie: { maxAge: 3600000 * 24 }
-}))
+app.use(session(sessionOptions))
 app.use(passport.initialize())
 app.use(passport.session())
-passport.use(new FacebookStrategy({
-  clientID: process.env.CLIENT_ID,
-  clientSecret: process.env.CLIENT_SECRET,
-  callbackURL: process.env.CALLBACK_URL
-},
-async function (accessToken, refreshToken, profile, cb) {
-  try {
-    console.log(profile)
-    const user = await Users.exists({ facebookId: profile.id })
-    if (!user) {
-      const newUser = await Users.create({ facebookId: profile.id })
-      return cb(null, newUser)
-    }
-    const userFacebook = Users.findOne({ facebookId: profile.id })
-    cb(null, userFacebook)
-  } catch (err) {
-    cb(err, null)
-  }
-}
-))
+passport.use(newStrategy)
 
 /* Routes */
-app.use('/', /* admin, */ routes)
-// app.use('/api/v1', cors(corsOptions), routes)
+app.use('/', routes)
+// app.use('/api/v1', routes)
 
 /* Errors */
 app.use(errorHandler)
