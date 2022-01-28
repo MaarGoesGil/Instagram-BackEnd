@@ -2,7 +2,7 @@ const { Router } = require('express')
 const { hashPass } = require('../utils/hashPass')
 const { comparePass } = require('../utils/comparePass')
 const { isAdmin } = require('../middlewires/isAdmin')
-const { postUsers, getConfirmUser, signIn, getAllUsers, getUsersByAtUser, getUsersByName, patchUsers, patchAddAdmin, patchUsersPassword, patchUsersResetPassword, deleteUsers, getFirstUsers } = require('../controllers/users')
+const { postUsers, getConfirmUser, signIn, getAllUsers, getUsersByAtUser, getUsersByName, patchUsers, patchAddorSubsAdmin, patchUsersPassword, patchUsersResetPassword, deleteUsers, getFirstUsers } = require('../controllers/users')
 const passport = require('passport')
 const users = Router()
 
@@ -19,7 +19,7 @@ users.patch('/edit-pass', comparePass, (req, res, next) => {
   next()
 }, hashPass, patchUsersPassword)
 users.patch('/reset-pass', patchUsersResetPassword)
-users.patch('/addAdmin', isAdmin, patchAddAdmin)
+users.patch('/addAdmin', isAdmin, patchAddorSubsAdmin)
 users.delete('/remove', comparePass, deleteUsers)
 
 // Login with Facebook - not working yet
