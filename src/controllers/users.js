@@ -96,16 +96,16 @@ const getFirstUsers = async (req, res) => {
 }
 
 const getUsersByAtUser = async (req, res) => {
-  const { id } = req.query
+  const { atUser } = req.query
   try {
-    const user = await Users.findOne({ _id: id })
-    const { name, lastName, avatar, description } = user
+    const user = await Users.findOne({ atUser })
+    const { name, lastName, avatar, description, date, atUser } = user
     user
       ? res.send({
         status: 'success',
         data: {
           msg: 'User',
-          data: { name, lastName, avatar, description }
+          data: { name, lastName, avatar, description, date, atUser }
         }
       })
       : res.send({
