@@ -210,8 +210,7 @@ const patchUsersResetPassword = async (req, res) => {
     res.send({
       status: 'success',
       data: {
-        msg: 'User updated, please check your email',
-        user
+        msg: 'User updated, please check your email'
       }
     })
   } catch (err) {
