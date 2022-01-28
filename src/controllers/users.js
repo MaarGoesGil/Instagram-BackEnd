@@ -170,10 +170,10 @@ const patchUsers = async (req, res) => {
   }
 }
 
-const patchAddAdmin = async (req, res) => {
+const patchAddorSubsAdmin = async (req, res) => {
   const { email } = req.body
   try {
-    const user = await Users.findOneAndUpdate({ email }, { isAdmin: true }, { new: true })
+    const user = await Users.findOneAndUpdate({ email }, { !isAdmin}, { new: true })
     res.send({
       status: 'success',
       data: {
@@ -243,7 +243,7 @@ module.exports = {
   getUsersByName,
   getUsersByAtUser,
   patchUsers,
-  patchAddAdmin,
+  patchAddorSubsAdmin,
   patchUsersPassword,
   patchUsersResetPassword,
   deleteUsers
