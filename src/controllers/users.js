@@ -95,7 +95,7 @@ const getFirstUsers = async (req, res) => {
   }
 }
 
-const getUsersById = async (req, res) => {
+const getUsersByAtUser = async (req, res) => {
   const { id } = req.query
   try {
     const user = await Users.findOne({ _id: id })
@@ -241,7 +241,7 @@ module.exports = {
   getAllUsers,
   getFirstUsers,
   getUsersByName,
-  getUsersById,
+  getUsersByAtUser,
   patchUsers,
   patchAddAdmin,
   patchUsersPassword,
