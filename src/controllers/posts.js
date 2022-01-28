@@ -49,8 +49,7 @@ const getPostsId = async (req, res) => {
 }
 
 const patchPosts = async (req, res) => {
-  const { id } = req.query
-  const { img, description, atUsers } = req.body
+  const { img, description, atUsers, id} = req.body
   try {
     await Posts.findOneAndUpdate({ _id: id }, { img, description, atUsers }, { new: true })
     res.send({
