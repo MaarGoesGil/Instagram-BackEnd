@@ -18,7 +18,10 @@ function (accessToken, refreshToken, profile, cb) {
         try {
           let name = profile.displayName.split(' ')[0]
           let lastName = profile.displayName.split(' ')[1]
-          const newUser = Users.create({ facebookId: profile.id, name, lastName, email: profile.emails[0].value, password: profile.id*2, avatar: profile.photos[0].value, atUser: profile.username, date: profile.birthday, description: profile.about})
+          let email = profile.emails[0].value
+          let date = profile?.birthday || new Date()
+          let description = profile?.about || `I am a new user, my name is ${profile.displayName}`
+          const newUser = Users.create({ facebookId: profile.id, name, lastName, email, date, description, verified: true })
           return cb(null, newUser)
         } catch (err) {
           return cb(err)
