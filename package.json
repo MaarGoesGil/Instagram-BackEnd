@@ -4,6 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+"start":"src/index.js",
     "prod": "node src/index.js",
     "dev": "nodemon src/index.js"
   },
@@ -24,7 +25,8 @@
     "nodemailer": "^6.7.2",
     "passport": "^0.5.2",
     "passport-facebook": "^3.0.0",
-    "uuid": "^8.3.2"
+    "uuid": "^8.3.2",
+    "nodemon": "^2.0.15"
   },
   "devDependencies": {
     "eslint": "^7.32.0",
