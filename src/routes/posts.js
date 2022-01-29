@@ -5,7 +5,7 @@ const { postPosts, getAllPosts, getPostsId, patchPosts, deletePosts } = require(
 const posts = Router()
 
 posts.post('/create', tokenToUserID, findUserForNewPostOrComment, postPosts)
-posts.get('/all', tokenToUserID, getAllPosts)
+posts.get('/myposts', tokenToUserID, getAllPosts)
 posts.get('/search', getPostsId)
 posts.patch('/edit', authPost, patchPosts)
 posts.delete('/remove', authPost, deletePosts)
