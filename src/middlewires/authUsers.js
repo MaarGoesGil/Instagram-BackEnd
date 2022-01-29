@@ -7,8 +7,7 @@ authComments se va a encargar de corroborar que matchee el user con el comment o
 */
 
 module.exports.authComments = async function (req, res, next) {
-  const { id } = req.query
-  const { token } = req.body
+  const { token, id } = req.body
   try {
     const _idUser = compareToken(token)
     const comment = await Comments.findById({ _id: id })
@@ -26,8 +25,7 @@ module.exports.authComments = async function (req, res, next) {
 }
 
 module.exports.authPost = async function (req, res, next) {
-  const { id } = req.query
-  const { token } = req.body
+  const { token, id } = req.body
   try {
     const _idUser = compareToken(token)
     console.log(_idUser)
