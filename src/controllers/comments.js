@@ -1,9 +1,9 @@
 const Comments = require('../models/comments')
 
 const postComments = async (req, res) => {
-  const { text, idPost, atUser, _id } = req.body
+  const { text, idPost, atUser, userId } = req.body
   try {
-    await Comments.create({ text, idPost, atUser, userId: _id })
+    await Comments.create({ text, idPost, atUser, userId})
     res.send({
       status: 'success',
       data: {
