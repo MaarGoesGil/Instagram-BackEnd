@@ -18,12 +18,27 @@ const postPosts = async (req, res) => {
   }
 }
 
-const getAllPosts = async (req, res) => {
+const getAllMyPosts = async (req, res) => {
   const { userId } = req.body
   try {
     const posts = await Posts.find({ userId })
     posts
       ? res.send(posts)
+      : res.status(404).send({
+        status: 'error',
+        message: 'Posts not found'
+      })
+  } catch (err) {
+    console.log(err)
+  }
+}
+
+const getAllPosts = async (req, res) {
+const { atUser } = req.query
+  try {
+    const posts = await Posts.find({ atUser })
+    posts
+      ? res.send(posts.map(e=> {return {e.img, e._id}}))
       : res.status(404).send({
         status: 'error',
         message: 'Posts not found'
@@ -81,6 +96,7 @@ const deletePosts = async (req, res) => {
 module.exports = {
   postPosts,
   getAllPosts,
+  getAllMyPosts,
   getPostsId,
   patchPosts,
   deletePosts
