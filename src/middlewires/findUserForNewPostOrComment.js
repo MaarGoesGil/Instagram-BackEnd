@@ -7,6 +7,7 @@ const findUserForNewPostOrComment = async (req, res, next) => {
   try {
     const user = await Users.findOne({ _id: userId })
     console.log(user)
+    req.body.atUser = user.atUser
     if (!user) {
       return res.status(400).json({
         message: 'User not found'
