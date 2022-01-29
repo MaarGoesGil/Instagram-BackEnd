@@ -64,7 +64,7 @@ const patchPosts = async (req, res) => {
 }
 
 const deletePosts = async (req, res) => {
-  const { id } = req.query
+  const { id } = req.body
   try {
     await Posts.findByIdAndRemove({ _id: id })
     res.send({
