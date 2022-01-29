@@ -1,13 +1,14 @@
 const Posts = require('../models/posts')
 
 const postPosts = async (req, res) => {
-  const { img, description, userId, atUsers } = req.body
+  const { img, description, userId, atUsers, atUser } = req.body
   try {
     const newPost = await Posts.create({
       img,
       description,
       userId,
-      atUsers
+      atUsers,
+      atUser
     })
     res.send({
       status: 'success',
