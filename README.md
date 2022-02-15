@@ -1,4 +1,4 @@
-#appGallery
+# APP Gallery
 **_image's gallery: in this app the users use the app for share your posts and comment about this. Only users signin can post and comment._**
 
 ## DEV Tools : 📝
