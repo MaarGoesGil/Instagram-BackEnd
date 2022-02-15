@@ -2,7 +2,7 @@
 **_image's gallery: in this app the users use the app for share your posts and comment about this. Only users signin can post and comment._**
 
 ## DEV Tools : 📝
-_Database creation (noSQL) with MongoDB and Mongoose as ORM. Using NodeJS technologies, and bcrypts libraries, jason web token for login and authentication.
+_Database creation (noSQL) with MongoDB and Mongoose as ORM. Using NodeJS technologies, and bcrypts libraries, jason web token for login and authentication._
 
 ###Routes
 
