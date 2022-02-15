@@ -9,11 +9,11 @@ _Database creation (noSQL) with MongoDB and Mongoose as ORM. Using NodeJS techno
 • Users
 _Sign up_
 https://localhost:XXXX/users/signup
-name, lastName, email, password, avatar, date, description 
+BODY : { name, lastName, email, password, avatar, date, description }
 
 _Sign in_
 https://localhost:XXXX/users/signin
-email, password
+BODY : { email, password }
 
 _Verify users_
 https://localhost:XXXX/users/confirm
@@ -21,7 +21,7 @@ email
 
 _Get all users, includes admin (only Admin)_
 https://localhost:XXXX/users/all
-token, password
+BODY : { token, password }
 
 _Get just 5 random users_
 https://localhost:XXXX/users/first
@@ -37,11 +37,11 @@ atUser
 
 _Edit user_
 https://localhost:XXXX/users/edit
-email, password, name, lastName, avatar, date, description, atUser 
+BODY : { email, password, name, lastName, avatar, date, description, atUser } 
 
 _Change the User's password_
 https://localhost:XXXX/users/edit-pass
-email, password, newPassword
+BODY : { email, password, newPassword }
 
 _Reset password_
 https://localhost:XXXX/users/reset-pass
@@ -49,22 +49,22 @@ email
 
 _Convert at user to admin or not_
 https://localhost:XXXX/users/addadmin
-token, password, email (to convert admin)
+BODY : { token, password, email (to convert admin) }
 
 _Delete user_
 https://localhost:XXXX/users/remove
- email, password
+ BODY : { email, password }
 
 
 • Posts
 
 _Create post_
 https://localhost:XXXX/posts/create
-token, password, img, description, atUsers
+BODY : { token, password, img, description, atUsers }
 
 _Get all user's posts_
 https://localhost:XXXX/posts/all
-token, atUser
+BODY : { token, atUser }
 
 _Search for a post_
 https://localhost:XXXX/posts/search
@@ -72,18 +72,18 @@ id
 
 _Edit post_
 https://localhost:XXXX/posts/edit
-token, id (del post), img, description, atUsers
+BODY : { token, id (del post), img, description, atUsers }
 
 _Delete post_
 https://localhost:XXXX/posts/remove
-token, id
+BODY : { token, id }
 
 
 • Comments
 
 _Create comment_
 https://localhost:XXXX/comments/create
-token text idPost
+BODY : { token text idPost }
 
 _Get all post's comment_
 https://localhost:XXXX/comments/all
@@ -95,8 +95,8 @@ id (del comment)
 
 _Edit comment_
 https://localhost:XXXX/comments/edit
-token id(del comment) text
+BODY : { token id(del comment) text }
 
 _Delete comment_
 https://localhost:XXXX/comments/remove
-token id(del comment)
+BODY : { token id(del comment) }
